@@ -9,8 +9,8 @@ module Devise
       ::Userbin.config.api_secret = Devise.userbin_api_secret
 
       included do
-        attr_reader :password, :current_password
-        attr_accessor :password_confirmation
+        attr_reader :current_password
+        attr_accessor :password, :password_confirmation
 
         before_create do
           begin
@@ -21,10 +21,6 @@ module Devise
             false
           end
         end
-      end
-
-      def password=(new_password)
-        @password = new_password
       end
 
       module ClassMethods
