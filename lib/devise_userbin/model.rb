@@ -27,9 +27,7 @@ module Devise
         def find_for_userbin_authentication(attributes={}, password)
           begin
             user = ::Userbin::User.authenticate(
-              'credentials[email]' => attributes[:email],
-              'credentials[password]' => password
-            )
+              email: attributes[:email], password: password)
           rescue ::Userbin::Error => error
             return
           end
