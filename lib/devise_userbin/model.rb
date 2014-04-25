@@ -5,7 +5,6 @@ module Devise
     module Userbin
       extend ActiveSupport::Concern
 
-      ::Userbin.config.app_id = Devise.userbin_app_id
       ::Userbin.config.api_secret = Devise.userbin_api_secret
 
       included do

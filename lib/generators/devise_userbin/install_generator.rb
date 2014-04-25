@@ -15,7 +15,6 @@ module DeviseUserbin
             inject_into_file(devise_initializer_path, :before => "  # ==> Mailer Configuration\n") do
 <<-CONTENT
   # ==> Configuration for :userbin
-  config.userbin_app_id = ''
   config.userbin_api_secret = ''
 
 CONTENT

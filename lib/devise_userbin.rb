@@ -9,9 +9,6 @@ if defined?(Rails::Railtie)
 end
 
 module Devise
-  mattr_accessor :userbin_app_id
-  @@userbin_app_id = ''
-
   mattr_accessor :userbin_api_secret
   @@userbin_api_secret = ''
 end
