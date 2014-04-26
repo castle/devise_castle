@@ -5,3 +5,4 @@ module DeviseUserbin
     end
   end
 end
+

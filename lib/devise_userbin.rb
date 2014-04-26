@@ -1,5 +1,7 @@
+require 'active_support/concern'
 require 'devise'
-require 'devise_userbin/mapping'
+require 'devise_userbin/hooks'
+require 'devise_userbin/routes'
 require 'devise_userbin/hooks'
 require 'devise_userbin/import'
 
@@ -13,8 +15,13 @@ module Devise
   @@userbin_api_secret = ''
 end
 
+module DeviseUserbin
+  module Controllers
+    autoload :Helpers, 'devise_userbin/controllers/helpers'
+  end
+end
+
 Devise.add_module(:userbin,
-  #:strategy => true,
-  :controller => :sessions,
-  :route => :session,
+  :controller => :devise_userbin,
+  :route => :userbin,
   :model  => 'devise_userbin/model')

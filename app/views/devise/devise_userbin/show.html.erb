@@ -1,0 +1,8 @@
+<h2>Two-factor authentication</h2>
+
+<%= form_tag([resource_name, :userbin], :method => :put) do %>
+  <%= text_field_tag :code %>
+  <%= submit_tag "Verify" %>
+<% end %>
+
+<%= link_to "Sign out", destroy_session_path(resource_name), :method => Devise.sign_out_via %>

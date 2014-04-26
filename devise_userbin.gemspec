@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.require_path = "lib"
 
-  s.files = `git ls-files {app,rails,lib}`.split("\n") + %w[README.md]
+  s.files = Dir.glob("{app,lib}/**/*")
 
   s.add_dependency('devise', '>= 3.0')
 

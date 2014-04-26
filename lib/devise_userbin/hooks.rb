@@ -5,8 +5,10 @@ Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
     session = Userbin::Session.post(
       "/api/v1/users/#{record.userbin_id}/sessions")
     warden.session(opts[:scope])['_ubt'] = session.id
+  rescue Userbin::ChallengeException => error
+    warden.session(opts[:scope])['_ubc'] = error.challenge.id
   rescue Userbin::Error
-    # TODO: Handle challenges
+    # TODO: Proceed silently or report to browser?
   end
 end
 
