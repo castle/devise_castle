@@ -33,7 +33,7 @@ Replace MODEL by the class name you want to add DeviseUserbin, like User, Admin,
 
 First run the [Devise](https://github.com/plataformatec/devise#getting-started) getting started guide.
 
-Then replace `:database_authenticable` with `:userbin` in the `devise` call in your model. Also remove the `:lockable` module since functionality this will be handled by Userbin.
+Then replace `:database_authenticable` with `:userbin` in the `devise` call in your model. Also remove the `:lockable` module since this functionality will be handled by Userbin.
 
 ```ruby
 class User < ActiveRecord::Base
@@ -41,12 +41,18 @@ class User < ActiveRecord::Base
 end
 ```
 
-Lastly remove all validations on email and password in your User model.
+Remove all validations on email and password in your User model:
 
 ```ruby
 # validates_uniqueness_of :email
 # validates_format_of     :email, :with  => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/,
 # ...
+```
+
+Take note of your *API secret* from your Userbin dashboard and generate a config file:
+
+```bash
+rails generate devise_userbin:install YOUR-API-SECRET
 ```
 
 ## Database migration
