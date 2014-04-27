@@ -6,6 +6,7 @@ en:
       show:
         header: Two-factor authentication
         instructions: Open the two-factor authentication app on your device to view your authentication code and verify your identity.
+        code_label: Authentication code
         submit_button: Verify
         recovery_message: Don't have your phone?
         recovery_action: Enter a two-factor recovery code
@@ -14,5 +15,6 @@ en:
       no_retries_remaining: No recovery code retries remaining.
       show:
         header: Two-factor recovery
+        code_label: Recovery code
         submit_button: Verify
         message: You can enter one of your recovery codes in case you lost access to your mobile device.
