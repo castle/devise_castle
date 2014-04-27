@@ -5,87 +5,57 @@ Userbin.
 
 ## Installation
 
-Install DeviseUserbin gem, it will also install dependencies (such as devise and warden):
+If your working with a fresh project, first run the [Devise](https://github.com/plataformatec/devise#getting-started) getting started guide to set up the authentication.
+
+Then install the DeviseUserbin gem:
 
 ```bash
 gem install devise_userbin
 ```
 
-<!--
-### Automatic installation
-
-Run the following generator to add DeviseUserbin’s configuration option in the Devise configuration file (config/initializers/devise.rb):
-
-```bash
-rails generate devise_userbin:install
-```
-
-When you are done, you are ready to add DeviseUserbin to any of your Devise models using the following generator.
-
-```bash
-rails generate devise_userbin MODEL
-```
-
-Replace MODEL by the class name you want to add DeviseUserbin, like User, Admin, etc. This will add the :userbin flag to your model's Devise modules. The generator will also create a migration file (if your ORM support them). Continue reading this file to understand exactly what the generator produces and how to use it.
--->
-
-## Devise configuration
-
-First run the [Devise](https://github.com/plataformatec/devise#getting-started) getting started guide.
-
-Then replace `:database_authenticable` with `:userbin` in the `devise` call in your model. Also remove the `:lockable` module since this functionality will be handled by Userbin.
-
-```ruby
-class User < ActiveRecord::Base
-  devise :userbin, :registerable # ,...
-end
-```
-
-Remove all validations on email and password in your User model:
-
-```ruby
-# validates_uniqueness_of :email
-# validates_format_of     :email, :with  => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/,
-# ...
-```
-
-Take note of your *API secret* from your Userbin dashboard and generate a config file:
+Take note of your *API secret* from your Userbin dashboard and run the installation generator. This will add Userbin configuration to your devise.rb initializer and add a devise_userbin.en.yml to your locale files.
 
 ```bash
 rails generate devise_userbin:install YOUR-API-SECRET
 ```
 
-## Database migration
-
-### ActiveRecord
-
-Create a migration to add DeviseUserbin to your model:
-
-```ruby
-def change
-  add_column :users, :userbin_id, :string
-end
-add_index :users, :userbin_id, :unique => true
-```
-
-### Mongoid
-
-If you are using Mongoid, define the following fields and indexes within your user model:
-
-```ruby
-field :userbin_id, type: String
-index( {userbin_id: 1}, {:background => true} )
-```
-
-Remember to create indexes within the MongoDB database after deploying your changes.
+When you are done, you are ready to add DeviseUserbin to any of your Devise models using the following generator. Replace MODEL by the class name you want to add DeviseUserbin, like User, Admin, etc.
 
 ```bash
-rake db:mongoid:create_indexes
+rails generate devise_userbin MODEL
 ```
 
-## Import existing users to Userbin
+If you're using ActiveRecord, the generator will also create a migration file, so you'll need to run:
 
-If you already have an existing userbase, in order for them to login, the credentials need to be synchronized to the Userbin cloud where the passwords are re-encrypted. Once you're done with migrating your application to Userbin, you can safely remove all passwords from your local database to protect your users from breaches.
+```bash
+rake db:migrate
+```
+
+## Configuration
+
+### Configuring views
+
+All the views are packaged inside the gem. If you'd like to customize the views, invoke the following generator and it will copy all the views to your application:
+
+```bash
+rails generate devise_userbin:views
+```
+
+You can also use the generator to generate scoped views:
+
+```bash
+rails generate devise_userbin:views users
+```
+
+Then turn on scoped views in config/initializers/devise.rb:
+
+```bash
+config.scoped_views = true
+```
+
+## Importing existing users to Userbin
+
+To get started faster with Userbin, do an initial import of all your users:
 
 ```bash
 rails generate devise_userbin:import MODEL
