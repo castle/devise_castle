@@ -3,7 +3,7 @@
 <p><%= t "devise.two_factor_authentication.show.instructions" %></p>
 
 <%= form_tag([resource_name, :two_factor_authentication], :method => :put) do %>
-  <p><%= label_tag :code %><br />
+  <p><%= label_tag :code, t("devise.two_factor_authentication.show.code_label") %><br />
   <%= text_field_tag :code %></p>
   <p><%= submit_tag t("devise.two_factor_authentication.show.submit_button") %></p>
 <% end -%>
