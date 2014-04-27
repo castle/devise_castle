@@ -1,6 +1,4 @@
-﻿require 'devise_userbin/strategy'
-
-module Devise
+﻿module Devise
   module Models
     module Userbin
       extend ActiveSupport::Concern

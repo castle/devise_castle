@@ -1,0 +1,12 @@
+<h2><%= t "devise.two_factor_authentication.show.header" %></h2>
+
+<p><%= t "devise.two_factor_authentication.show.instructions" %></p>
+
+<%= form_tag([resource_name, :two_factor_authentication], :method => :put) do %>
+  <p><%= label_tag :code %><br />
+  <%= text_field_tag :code %></p>
+  <p><%= submit_tag t("devise.two_factor_authentication.show.submit_button") %></p>
+<% end -%>
+
+<p><%= t "devise.two_factor_authentication.show.recovery_message" %><br />
+<%= link_to t("devise.two_factor_authentication.show.recovery_action"), [resource_name, :two_factor_recovery] %></p>

@@ -1,0 +1,18 @@
+en:
+  devise:
+    two_factor_authentication:
+      failed: Two-factor authentication failed. Please try again.
+      no_retries_remaining: No two-factor retries remaining.
+      show:
+        header: Two-factor authentication
+        instructions: Open the two-factor authentication app on your device to view your authentication code and verify your identity.
+        submit_button: Verify
+        recovery_message: Don't have your phone?
+        recovery_action: Enter a two-factor recovery code
+    two_factor_recovery:
+      failed: Recovery code authentication failed. Please try again.
+      no_retries_remaining: No recovery code retries remaining.
+      show:
+        header: Two-factor recovery
+        submit_button: Verify
+        message: You can enter one of your recovery codes in case you lost access to your mobile device.

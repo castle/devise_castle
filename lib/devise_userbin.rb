@@ -22,6 +22,6 @@ module DeviseUserbin
 end
 
 Devise.add_module(:userbin,
-  :controller => :devise_userbin,
+  :controller => :two_factor_authentication,
   :route => :userbin,
   :model  => 'devise_userbin/model')

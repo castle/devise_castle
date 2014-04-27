@@ -1,0 +1,9 @@
+<h2><%= t "devise.two_factor_recovery.show.header" %></h2>
+
+<%= form_tag([resource_name, :two_factor_recovery], :method => :put) do %>
+  <p><%= label_tag :code %><br />
+  <%= text_field_tag :code %></p>
+  <p><%= submit_tag t("devise.two_factor_recovery.show.submit_button") %></p>
+<% end -%>
+
+<p><%= t "devise.two_factor_recovery.show.message" %></p>
