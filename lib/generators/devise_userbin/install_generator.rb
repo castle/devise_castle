@@ -19,10 +19,14 @@ module DeviseUserbin
   config.userbin_api_secret = '#{api_secret}'
 
 CONTENT
-                  end
-                end
-              end
             end
+          end
+        end
+      end
+
+      def copy_locale
+        copy_file "../../../config/locales/en.yml", "config/locales/devise_userbin.en.yml"
+      end
     end
   end
 end
