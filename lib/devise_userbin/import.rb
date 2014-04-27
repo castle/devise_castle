@@ -60,7 +60,6 @@ module DeviseUserbin
         format = {}
         format[:email] = resource.email
         format[:username] = resource.email if resource.respond_to? :username
-        format[:legacy_password] = "bcrypt:#{resource.encrypted_password}:#{Devise.pepper}"
         format
       end.compact
     end

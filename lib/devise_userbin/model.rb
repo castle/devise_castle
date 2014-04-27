@@ -14,7 +14,7 @@
           # TODO: track successful login
           true
         else
-          # TODO: track unsuccessful logout
+          # TODO: track unsuccessful login
           false
         end
       end
@@ -26,15 +26,14 @@
 
         def create_userbin_user
           userbin_user_block do
-            user = ::Userbin::User.create(email: email, password: password)
+            user = ::Userbin::User.create(email: email)
             self.userbin_id = user.id
           end
         end
 
         def update_userbin_user
           userbin_user_block do
-            ::Userbin::User.save_existing(userbin_id,
-              email: email, password: password)
+            ::Userbin::User.save_existing(userbin_id, email: email)
           end
         end
 
@@ -51,20 +50,6 @@
             self.errors[:base] << error.to_s
             false
           end
-        end
-      end
-
-      module ClassMethods
-        def find_for_userbin_authentication(attributes={}, password)
-          begin
-            user = ::Userbin::User.authenticate(
-              email: attributes[:email], password: password)
-          rescue ::Userbin::Error => error
-            return
-          end
-
-          to_adapter.find_first(
-            devise_parameter_filter.filter({userbin_id: user.id}))
         end
       end
 
