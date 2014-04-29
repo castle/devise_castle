@@ -11,10 +11,12 @@ class Devise::DeviseUserbinController < DeviseController
       challenge_id = warden.session(scope)['_ubc']
 
       begin
-        session = Userbin::Session.post(
-          "/api/v1/sessions", {
-            challenge: { id: challenge_id, response: params[:code] } }
-        )
+        session = Userbin.with_context(warden.env) do
+          Userbin::Session.post(
+            "/api/v1/sessions", {
+              challenge: { id: challenge_id, response: params[:code] } }
+          )
+        end
         warden.session(scope).delete('_ubc')
         warden.session(scope)['_ubt'] = session.id
 

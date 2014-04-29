@@ -2,8 +2,9 @@
 #
 Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   begin
-    session = Userbin::Session.post(
-      "/api/v1/users/#{record.userbin_id}/sessions")
+    session = Userbin.with_context(warden.env) do
+      Userbin::Session.post("/api/v1/users/#{record.userbin_id}/sessions")
+    end
     warden.session(opts[:scope])['_ubt'] = session.id
   rescue Userbin::ChallengeException => error
     warden.session(opts[:scope])['_ubc'] = error.challenge.id
@@ -15,9 +16,12 @@ end
 # Before logout
 #
 Warden::Manager.before_logout do |record, warden, opts|
-  session_id = warden.session(opts[:scope]).delete('_ubt')
   begin
-    Userbin::Session.destroy_existing(session_id)
+    if session_id = warden.session(opts[:scope]).delete('_ubt')
+      Userbin.with_context(warden.env) do
+        Userbin::Session.destroy_existing(session_id)
+      end
+    end
   rescue Userbin::Error; end
 end
 
@@ -27,7 +31,9 @@ Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
   session_id = warden.session(opts[:scope])['_ubt']
   begin
     if Userbin::JWT.new(session_id).expired?
-      session = Userbin::Session.new(id: session_id).refresh
+      session = Userbin.with_context(warden.env) do
+        Userbin::Session.new(id: session_id).refresh
+      end
       warden.session(opts[:scope])['_ubt'] = session.id
     end
   rescue Userbin::SecurityError => error
