@@ -28,15 +28,22 @@ end
 # Everytime current_<scope> is prepared
 #
 Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
-  session_id = warden.session(opts[:scope])['_ubt']
-  begin
-    if Userbin::JWT.new(session_id).expired?
-      session = Userbin.with_context(warden.env) do
-        Userbin::Session.new(id: session_id).refresh
+  scope = opts[:scope]
+  session_id = warden.session(scope)['_ubt']
+
+  if session_id
+    begin
+      if Userbin::JWT.new(session_id).expired?
+        session = Userbin.with_context(warden.env) do
+          Userbin::Session.new(id: session_id).refresh
+        end
+        warden.session(scope)['_ubt'] = session.id
       end
-      warden.session(opts[:scope])['_ubt'] = session.id
+    rescue Userbin::Error
+      warden.session(scope).delete('_ubt')
+      warden.session(scope).delete('_ubc')
+      warden.logout(scope)
+      throw :warden, :scope => scope, :message => :timeout
     end
-  rescue Userbin::SecurityError => error
-    # TODO: Tampered or non-existing Userbin session. Log out
-  rescue Userbin::Error; end
+  end
 end
