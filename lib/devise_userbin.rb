@@ -19,6 +19,9 @@ module DeviseUserbin
   module Controllers
     autoload :Helpers, 'devise_userbin/controllers/helpers'
   end
+  module Views
+    autoload :Helpers, 'devise_userbin/controllers/view_helpers'
+  end
 end
 
 Devise.add_module(:userbin,
