@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/userbin/userbin_devise.png)](https://travis-ci.org/userbin/userbin_devise)
+[![Gem Version](https://badge.fury.io/rb/userbin_devise.png)](http://badge.fury.io/rb/userbin_devise)
+[![Dependency Status](https://gemnasium.com/userbin/userbin_devise.png)](https://gemnasium.com/userbin/userbin_devise)
+
 # DeviseUserbin
 
 Adds support to [Devise](http://github.com/plataformatec/devise) for authenticating with
