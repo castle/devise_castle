@@ -7,7 +7,6 @@ module DeviseUserbin
         Import.run(resource_class: class_name)
       end
 
-      hook_for :orm
     end
   end
 end
