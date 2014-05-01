@@ -32,8 +32,10 @@
         end
 
         def update_userbin_user
-          userbin_user_block do
-            ::Userbin::User.save_existing(userbin_id, email: email)
+          if %w[email].any? { |attr| changed.include?(attr) }
+            userbin_user_block do
+              ::Userbin::User.save_existing(userbin_id, email: email)
+            end
           end
         end
 
