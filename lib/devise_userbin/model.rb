@@ -3,7 +3,7 @@
     module Userbin
       extend ActiveSupport::Concern
 
-      ::Userbin.config.api_secret = Devise.userbin_api_secret
+      ::Userbin.api_secret = Devise.userbin_api_secret
 
       # Overwrites valid_for_authentication? from Devise::Models::Authenticatable
       # for verifying whether a user is allowed to sign in or not.
