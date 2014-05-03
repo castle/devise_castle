@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('bundler', '>= 1.1.0')
 
   s.add_development_dependency('rake', '>= 0.9')
-  s.add_development_dependency('rails', '>= 4.0')
+  s.add_development_dependency('rails', '>= 3.1')
 end
