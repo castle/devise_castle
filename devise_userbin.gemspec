@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
   s.name     = 'devise_userbin'
   s.version  = DeviseUserbin::VERSION.dup
   s.platform = Gem::Platform::RUBY
-  s.summary  = 'Devise extension to allow authentication via Userbin'
+  s.summary  = 'Devise extension to protect your user accounts with Userbin'
   s.email = 'johan@userbin.com'
   s.homepage = 'https://github.com/userbin/devise_userbin'
-  s.description = s.summary
+  s.description = 'Adds support to Devise for protecting your user accounts with Userbin. Userbin is a cloud service that adds multi-factor authentication, user activity monitoring, and real-time threat protection to your current authentication setup with minimal amount of configuration.'
   s.authors = ['Johan Brissmyr']
   s.license = 'MIT'
   s.require_path = "lib"
