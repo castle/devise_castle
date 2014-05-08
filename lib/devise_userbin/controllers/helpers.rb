@@ -4,10 +4,36 @@ module DeviseUserbin
       extend ActiveSupport::Concern
 
       included do
+        before_filter :authenticate_with_userbin
         before_filter :handle_two_factor_authentication
       end
 
       private
+
+      def authenticate_with_userbin
+        Devise.mappings.keys.flatten.any? do |scope|
+          if signed_in?(scope)
+            begin
+              record = warden.user(scope)
+
+              warden.session(scope)['_ubt'] =
+                Userbin.authenticate(warden.session(scope)['_ubt'], record.id, {
+                  properties: {
+                    email: record.email
+                  },
+                  context: {
+                    ip: warden.request.ip,
+                    user_agent: warden.request.user_agent
+                  }
+                })
+            rescue Userbin::Error => error
+              signed_out = sign_out(scope)
+              set_flash_message :notice, :signed_out if signed_out && is_flashing_format?
+              redirect_to after_sign_out_path_for(scope)
+            end
+          end
+        end
+      end
 
       def handle_two_factor_authentication
         unless devise_controller?
