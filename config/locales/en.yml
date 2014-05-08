@@ -1,6 +1,7 @@
 en:
   devise:
     two_factor_authentication:
+      success: Two-factor authentication was successful.
       failed: Two-factor authentication failed. Please try again.
       no_retries_remaining: No two-factor retries remaining.
       show:
@@ -11,6 +12,7 @@ en:
         recovery_message: Don't have your phone?
         recovery_action: Enter a two-factor recovery code
     two_factor_recovery:
+      success: Recovery code authentication was successful.
       failed: Recovery code authentication failed. Please try again.
       no_retries_remaining: No recovery code retries remaining.
       show:

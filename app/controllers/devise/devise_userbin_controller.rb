@@ -11,15 +11,9 @@ class Devise::DeviseUserbinController < DeviseController
       challenge_id = warden.session(scope)['_ubc']
 
       begin
-        session = Userbin.with_context(warden.env) do
-          Userbin::Session.post(
-            "/api/v1/sessions", {
-              challenge: { id: challenge_id, response: params[:code] } }
-          )
-        end
-        warden.session(scope).delete('_ubc')
-        warden.session(scope)['_ubt'] = session.id
-
+        warden.session(scope)['_ubt'] =
+          Userbin.verify_code(warden.session(scope)['_ubt'], params[:code])
+        set_flash_message :notice, :success if is_flashing_format?
         redirect_to after_sign_in_path_for(scope)
       rescue Userbin::UserUnauthorizedError => error
         set_flash_message :notice, :failed if is_flashing_format?
@@ -35,7 +29,6 @@ class Devise::DeviseUserbinController < DeviseController
   protected
 
   def sign_out_with_message(message)
-    warden.session(resource_name).delete('_ubc')
     signed_out = sign_out(resource_name)
     set_flash_message :notice, message if signed_out && is_flashing_format?
     redirect_to after_sign_out_path_for(resource_name)

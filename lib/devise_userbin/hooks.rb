@@ -4,18 +4,18 @@ Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
   scope = opts[:scope]
 
   begin
-    warden.session(scope)['_ubt'] = Userbin.authenticate({
-      user_id: record.id,
-      properties: {
-        email: record.email
-      },
-      current: warden.session(scope)['_ubt']
-    })
-  rescue Userbin::ChallengeException => error
-    warden.session(opts[:scope])['_ubc'] = error.challenge.id
+    warden.session(scope)['_ubt'] =
+      Userbin.authenticate(warden.session(scope)['_ubt'], record.id, {
+        properties: {
+          email: record.email
+        },
+        context: {
+          ip: warden.request.ip,
+          user_agent: warden.request.user_agent
+        }
+      })
   rescue Userbin::Error => error
     warden.session(scope).delete('_ubt')
-    warden.session(scope).delete('_ubc')
     warden.logout(scope)
     throw :warden, :scope => scope, :message => :timeout
   end

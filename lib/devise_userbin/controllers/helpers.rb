@@ -13,7 +13,7 @@ module DeviseUserbin
         unless devise_controller?
           Devise.mappings.keys.flatten.any? do |scope|
             if signed_in?(scope)
-              if challenge_id = warden.session(scope)['_ubc']
+              if Userbin.two_factor_authenticate!(warden.session(scope)['_ubt'])
                 handle_required_two_factor_authentication(scope)
               end
             end
