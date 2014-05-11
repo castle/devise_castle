@@ -16,8 +16,8 @@ module DeviseUserbin
             begin
               record = warden.user(scope)
 
-              warden.session(scope)['_ubt'] =
-                Userbin.authenticate(warden.session(scope)['_ubt'], record.id, {
+              session["#{scope}_userbin"] =
+                Userbin.authenticate(session["#{scope}_userbin"], record.id, {
                   properties: {
                     email: record.email
                   },
@@ -39,7 +39,7 @@ module DeviseUserbin
         unless devise_controller?
           Devise.mappings.keys.flatten.any? do |scope|
             if signed_in?(scope)
-              if Userbin.two_factor_authenticate!(warden.session(scope)['_ubt'])
+              if Userbin.two_factor_authenticate!(session["#{scope}_userbin"])
                 handle_required_two_factor_authentication(scope)
               end
             end

@@ -4,8 +4,8 @@ module DeviseUserbin
 
       def security_page_url(opts = {})
         scope = opts[:scope] || ::Devise.default_scope
-        token = warden.session(scope)['_ubt']
-        Userbin.security_page_url(token)
+        session_token = session["#{scope}_userbin"]
+        Userbin.security_page_url(session_token)
       end
 
     end

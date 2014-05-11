@@ -11,8 +11,8 @@ class Devise::DeviseUserbinController < DeviseController
       challenge_id = warden.session(scope)['_ubc']
 
       begin
-        warden.session(scope)['_ubt'] =
-          Userbin.verify_code(warden.session(scope)['_ubt'], params[:code])
+        session["#{scope}_userbin"] =
+          Userbin.verify_code(session["#{scope}_userbin"], params[:code])
         set_flash_message :notice, :success if is_flashing_format?
         redirect_to after_sign_in_path_for(scope)
       rescue Userbin::UserUnauthorizedError => error
