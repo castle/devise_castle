@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.email = 'johan@userbin.com'
   s.homepage = 'https://github.com/userbin/devise_userbin'
+  s.summary = 'Devise extension for Userbin'
   s.description = 'Devise extension for Userbin. Secure your application with multi-factor authentication, user activity monitoring, and real-time threat protection.'
   s.authors = ['Johan Brissmyr']
   s.license = 'MIT'
