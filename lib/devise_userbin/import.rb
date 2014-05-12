@@ -59,7 +59,7 @@ module DeviseUserbin
       resources.map do |resource|
         format = {}
         format[:email] = resource.email unless resource.email.blank?
-        format[:id] = resource.id
+        format[:id] = resource._userbin_id
         format[:created_at] = resource.created_at if resource.respond_to? :created_at
         format
       end.compact

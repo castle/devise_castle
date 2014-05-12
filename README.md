@@ -33,7 +33,7 @@ Before you start, make sure that you've set up [Devise](https://github.com/plata
 
 ## Configuration
 
-### Configuring views
+### Views
 
 All the views for two-factor authentication are packaged inside the gem. If you'd like to customize the views, invoke the following generator and it will copy all the views to your application:
 
@@ -53,12 +53,22 @@ Then turn on scoped views in config/initializers/devise.rb:
 config.scoped_views = true
 ```
 
-### Configuring controllers
+### Controllers
 
 You're able to change the path to the two-factor authentication and recovery views:
 
 ```ruby
 devise_for :users, path_names: { two_factor_authentication: 'authenticate', two_factor_recovery: 'recover' }
+```
+
+### Models
+
+By default, the `id` field of your user model will be used as the identifer when creating and querying Userbin users and sessions. If you have multiple user models that risk generating the same identifier, you can override `userbin_id` in any model:
+
+```ruby
+def userbin_id
+  "admin-#{id}"
+end
 ```
 
 ## Usage

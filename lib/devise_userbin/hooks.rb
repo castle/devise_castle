@@ -7,7 +7,7 @@ Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
     session_token = warden.request.session["#{scope}_userbin"]
 
     session_token =
-      Userbin.authenticate(session_token, record.id, {
+      Userbin.authenticate(session_token, record._userbin_id, {
         properties: {
           email: record.email
         },

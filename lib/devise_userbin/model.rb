@@ -22,6 +22,18 @@
             false
           end
         end
+
+        # Override this in your Devise model to use a custom identifier
+        # for the Userbin API:s
+        def userbin_id
+          id
+        end
+
+        # Since the identifier will be used in API routes, it needs to be
+        # URI encoded
+        def _userbin_id
+          URI.encode(userbin_id.to_s)
+        end
       end
 
       # Overwrites valid_for_authentication? from Devise::Models::Authenticatable
