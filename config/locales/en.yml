@@ -4,6 +4,7 @@ en:
       success: Two-factor authentication was successful.
       failed: Two-factor authentication failed. Please try again.
       no_retries_remaining: No two-factor retries remaining.
+      error: Two-factor authentication failed.
       show:
         header: Two-factor authentication
         instructions: Open the two-factor authentication app on your device to view your authentication code and verify your identity.
@@ -15,6 +16,7 @@ en:
       success: Recovery code authentication was successful.
       failed: Recovery code authentication failed. Please try again.
       no_retries_remaining: No recovery code retries remaining.
+      error: Recovery code authentication failed.
       show:
         header: Two-factor recovery
         code_label: Recovery code
