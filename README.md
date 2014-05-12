@@ -77,12 +77,10 @@ end
 
 Every user has access to their security settings, which is a hosted page on Userbin. Here users can configure two-factor authentication, revoke suspicious sessions and set up notifications. The security page can be customized to fit your current layout by going to the appearance settings in your Userbin dashboard.
 
-There's a helper, `security_page_url` available for generating links to the security page for any logged in user.
-
-**Important:** Since the generated URL contains a Userbin session token that needs to be up-to-date, it's crucial that you don't use this helper directly in your HTML, but instead create a new route where you redirect to the security page.
+There's a helper, `security_settings_path` available for generating links to the security page for any logged in user. Prefix it with the current scope like this:
 
 ```ruby
-<%= link_to 'Security settings', security_page_url %>
+<%= link_to 'Security settings', user_security_settings_path %>
 ```
 
 ## Importing existing users to Userbin
