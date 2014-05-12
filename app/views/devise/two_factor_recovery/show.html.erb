@@ -1,6 +1,7 @@
 <h2><%= t "devise.two_factor_recovery.show.header" %></h2>
 
 <%= form_tag([resource_name, :two_factor_recovery], :method => :put) do %>
+  <%= devise_error_messages! %>
   <p><%= label_tag :code, t("devise.two_factor_recovery.show.code_label")%><br />
   <%= text_field_tag :code %></p>
   <p><%= submit_tag t("devise.two_factor_recovery.show.submit_button") %></p>

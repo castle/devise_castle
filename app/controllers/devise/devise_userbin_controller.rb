@@ -2,6 +2,7 @@ class Devise::DeviseUserbinController < DeviseController
   include Devise::Controllers::Helpers
 
   def show
+    self.resource = resource_class.new
   end
 
   def update
