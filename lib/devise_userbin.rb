@@ -4,6 +4,7 @@ require 'devise_userbin/hooks'
 require 'devise_userbin/routes'
 require 'devise_userbin/hooks'
 require 'devise_userbin/import'
+require 'userbin'
 
 if defined?(Rails::Railtie)
   require 'devise_userbin/railtie'

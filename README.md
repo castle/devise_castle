@@ -12,7 +12,6 @@ Before you start, make sure that you've set up [Devise](https://github.com/plata
 1. First add the `devise_userbin` gem your Gemfile along with the edge version of `userbin`:
 
   ```ruby
-  gem 'userbin', path: 'git@github.com:brissmyr/userbin-ruby.git'
   gem 'devise_userbin'
   ```
 
