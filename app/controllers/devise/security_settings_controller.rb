@@ -3,6 +3,6 @@ class Devise::SecuritySettingsController < DeviseController
 
   def show
     session_token = session["#{resource_name}_userbin"]
-    redirect_to Userbin.security_page_url(session_token)
+    redirect_to Userbin.security_settings_url(session_token)
   end
 end
