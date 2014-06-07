@@ -18,8 +18,7 @@
           begin
             yield
           rescue ::Userbin::Error => error
-            self.errors[:base] << error.to_s
-            false
+            true
           end
         end
 
