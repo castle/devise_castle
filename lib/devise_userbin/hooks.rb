@@ -1,34 +1,25 @@
+Warden::Manager.on_request do |warden|
+  warden.request.env['userbin'] = Userbin::Security.new(warden.request)
+end
+
 # Everytime current_<scope> is prepared
 #
 Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
-  scope = opts[:scope]
-
   begin
-    session_token = warden.request.session["#{scope}_userbin"]
-
-    session_token =
-      Userbin.authenticate(session_token, record._userbin_id, {
-        properties: {
-          email: record.email
-        },
-        context: {
-          ip: warden.request.ip,
-          user_agent: warden.request.user_agent
-        }
-      })
-
-    warden.request.session["#{scope}_userbin"] = session_token
-
+    userbin = warden.request.env['userbin']
+    userbin.authorize!(record._userbin_id, { email: record.email })
   rescue Userbin::Error => error
-    warden.logout(scope)
-    throw :warden, :scope => scope, :message => :timeout
+    # TODO: do we need to clear any userbin session data?
+    warden.logout(opts[:scope])
+    throw :warden, :scope => opts[:scope], :message => :timeout
   end
 
 end
 
 Warden::Manager.before_logout do |record, warden, opts|
   begin
-    session_token = warden.request.session.delete("#{opts[:scope]}_userbin")
-    Userbin.deauthenticate(session_token)
+    userbin = warden.request.env['userbin']
+    userbin.authorize!(record._userbin_id)
+    userbin.logout
   rescue Userbin::Error; end
 end

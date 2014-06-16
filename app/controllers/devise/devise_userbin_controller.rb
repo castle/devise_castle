@@ -10,10 +10,10 @@ class Devise::DeviseUserbinController < DeviseController
 
     Devise.mappings.keys.flatten.any? do |scope|
       begin
-        Userbin.verify_challenge(
-          session["#{scope}_userbin_challenge_id"], params[:code])
+        send("current_#{scope_name}") # initialize after_set_user in warden
+        env['userbin'].two_factor_verify(params[:code])
+
         set_flash_message :notice, :success
-        session["#{scope}_userbin_authenticated"] = true
         redirect_to after_sign_in_path_for(scope)
       rescue Userbin::UserUnauthorizedError => error
         set_flash_message :alert, :failed
