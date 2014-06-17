@@ -9,17 +9,14 @@ Warden::Manager.after_set_user :only => :fetch do |record, warden, opts|
     userbin = warden.request.env['userbin']
     userbin.authorize!(record._userbin_id, { email: record.email })
   rescue Userbin::Error => error
-    # TODO: do we need to clear any userbin session data?
     warden.logout(opts[:scope])
     throw :warden, :scope => opts[:scope], :message => :timeout
   end
-
 end
 
 Warden::Manager.before_logout do |record, warden, opts|
   begin
     userbin = warden.request.env['userbin']
-    userbin.authorize!(record._userbin_id)
     userbin.logout
   rescue Userbin::Error; end
 end
