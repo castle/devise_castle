@@ -1,5 +1,5 @@
 Warden::Manager.on_request do |warden|
-  warden.request.env['userbin'] = Userbin::Security.new(warden.request)
+  warden.request.env['userbin'] = Userbin::Client.new(warden.request)
 end
 
 # Everytime current_<scope> is prepared
