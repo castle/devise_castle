@@ -10,11 +10,18 @@ module DeviseUserbin
       private
 
       def handle_two_factor_authentication
-        unless devise_controller?
+        if !devise_controller? && env['userbin'].authorized?
           Devise.mappings.keys.flatten.any? do |scope|
             if signed_in?(scope)
-              if env['userbin'].two_factor_authenticate!
-                handle_required_two_factor_authentication(scope)
+              begin
+                factor = env['userbin'].two_factor_authenticate!
+
+                # Show form and message specific to the current factor
+                case factor
+                when :authenticator
+                  handle_required_two_factor_authentication(scope)
+                end
+              rescue Userbin::Error # ignore for now
               end
             end
           end

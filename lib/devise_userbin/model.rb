@@ -17,7 +17,7 @@
         def userbin_user_block
           begin
             yield
-          rescue ::Userbin::Error => error
+          rescue ::Userbin::Error
             true
           end
         end
