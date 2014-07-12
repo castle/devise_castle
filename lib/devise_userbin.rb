@@ -6,11 +6,6 @@ require 'devise_userbin/hooks'
 require 'devise_userbin/import'
 require 'userbin'
 
-if defined?(Rails::Railtie)
-  require 'devise_userbin/railtie'
-  Rails::Engine
-end
-
 module Devise
   mattr_accessor :userbin_api_secret
   @@userbin_api_secret = ''
@@ -23,6 +18,11 @@ module DeviseUserbin
   module Views
     autoload :Helpers, 'devise_userbin/controllers/view_helpers'
   end
+end
+
+if defined?(Rails::Railtie)
+  require 'devise_userbin/railtie'
+  Rails::Engine
 end
 
 Devise.add_module(:userbin,
