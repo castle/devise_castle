@@ -22,7 +22,7 @@ class Devise::DeviseUserbinController < DeviseController
       rescue Userbin::Forbidden => error
         sign_out_with_message(:no_retries_remaining, :alert)
       rescue Userbin::Error => error
-        sign_out_with_message(:alert, :alert)
+        sign_out_with_message(:error, :alert)
       end
     end
   end
