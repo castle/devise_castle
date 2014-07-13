@@ -27,9 +27,18 @@ module DeviseUserbin
       end
 
       def handle_two_factor_authentication
-        if !devise_controller? && env['userbin'].authorized?
+        if !devise_controller?
           Devise.mappings.keys.flatten.any? do |scope|
-            if signed_in?(scope)
+            if signed_in?(scope) && env['userbin'].authorized?
+
+              # Log out if leaving the two-factor page
+              if env['userbin'].two_factor_in_progress? &&
+                 controller_name != 'two_factor_authentication' &&
+                 controller_name != 'two_factor_recovery'
+                warden.logout(scope)
+                throw :warden, :scope => scope
+              end
+
               begin
                 factor = env['userbin'].two_factor_authenticate!
 

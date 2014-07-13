@@ -11,5 +11,3 @@
 
 <p><%= t "devise.two_factor_authentication.show.recovery_message" %><br />
 <%= link_to t("devise.two_factor_authentication.show.recovery_action"), [resource_name, :two_factor_recovery] %></p>
-
-<%= link_to "Sign out", destroy_session_path(resource_name), :method => Devise.sign_out_via %>
