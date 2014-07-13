@@ -4,10 +4,27 @@ module DeviseUserbin
       extend ActiveSupport::Concern
 
       included do
+        before_filter :authorize_resource
         before_filter :handle_two_factor_authentication
       end
 
       private
+
+      def authorize_resource
+        Devise.mappings.keys.flatten.any? do |scope|
+          if signed_in?(scope)
+            resource = send("current_#{scope}")
+
+            begin
+              env['userbin'].authorize!(
+                resource._userbin_id, email: resource.email)
+            rescue Userbin::Error
+              warden.logout(scope)
+              throw :warden, :scope => scope, :message => :signed_out
+            end
+          end
+        end
+      end
 
       def handle_two_factor_authentication
         if !devise_controller? && env['userbin'].authorized?
@@ -21,7 +38,9 @@ module DeviseUserbin
                 when :authenticator
                   handle_required_two_factor_authentication(scope)
                 end
-              rescue Userbin::Error # ignore for now
+              rescue Userbin::Error
+                warden.logout(scope)
+                throw :warden, :scope => scope, :message => :signed_out
               end
             end
           end

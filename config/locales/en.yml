@@ -1,5 +1,7 @@
 en:
   devise:
+    failure:
+      signed_out: 'You were automatically signed out.'
     two_factor_authentication:
       success: Two-factor authentication was successful.
       failed: Two-factor authentication failed. Please try again.

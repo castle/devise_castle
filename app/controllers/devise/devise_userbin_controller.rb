@@ -10,7 +10,6 @@ class Devise::DeviseUserbinController < DeviseController
 
     Devise.mappings.keys.flatten.any? do |scope|
       begin
-        send("current_#{scope_name}") # initialize after_set_user in warden
         env['userbin'].two_factor_verify(params[:code])
 
         set_flash_message :notice, :success
@@ -19,7 +18,7 @@ class Devise::DeviseUserbinController < DeviseController
         set_flash_message :alert, :failed
         self.resource = resource_class.new
         respond_with_navigational(resource_name) { render :show }
-      rescue Userbin::Forbidden => error
+      rescue Userbin::ForbiddenError => error
         sign_out_with_message(:no_retries_remaining, :alert)
       rescue Userbin::Error => error
         sign_out_with_message(:error, :alert)
