@@ -1,6 +1,13 @@
 class Devise::DeviseUserbinController < DeviseController
   include Devise::Controllers::Helpers
 
+  before_filter do
+    # This controller should only be reachable when two-factor is in progress
+    unless env['userbin'].two_factor_in_progress?
+      redirect_to after_sign_in_path_for(resource_name)
+    end
+  end
+
   def show
     self.resource = resource_class.new
   end
