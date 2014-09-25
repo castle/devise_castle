@@ -18,6 +18,8 @@ module DeviseUserbin
             begin
               env['userbin'].authorize!(
                 resource._userbin_id, email: resource.email)
+            rescue Userbin::RequestError
+              # ignore that the API is unreachable
             rescue Userbin::Error
               warden.logout(scope)
               throw :warden, :scope => scope, :message => :signed_out
