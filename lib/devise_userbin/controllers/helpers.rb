@@ -46,7 +46,7 @@ module DeviseUserbin
 
                 # Show form and message specific to the current factor
                 case factor
-                when :authenticator, :yubi_key
+                when :authenticator, :yubikey
                   handle_required_two_factor_authentication(scope)
                 end
               rescue Userbin::Error
