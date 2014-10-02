@@ -13,11 +13,8 @@ module DeviseUserbin
       def authorize_resource
         Devise.mappings.keys.flatten.any? do |scope|
           if signed_in?(scope)
-            resource = send("current_#{scope}")
-
             begin
-              env['userbin'].authorize!(
-                resource._userbin_id, email: resource.email)
+              env['userbin'].authorize
             rescue Userbin::RequestError
               # ignore that the API is unreachable
             rescue Userbin::Error
