@@ -57,7 +57,7 @@ config.scoped_views = true
 You're able to change the path to the two-factor authentication and recovery views:
 
 ```ruby
-devise_for :users, path_names: { two_factor_authentication: 'authenticate', two_factor_recovery: 'recover' }
+devise_for :users, path_names: { two_factor_authentication: 'authenticate' }
 ```
 
 ### Models

@@ -12,7 +12,6 @@ module DeviseUserbin
       source_root File.expand_path("../../../../app/views/devise", __FILE__)
       def copy_views
         view_directory :two_factor_authentication
-        view_directory :two_factor_recovery
       end
     end
   end

@@ -11,9 +11,15 @@ end
 
 Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:userbin_id)
-    begin
-      userbin = warden.request.env['userbin']
-      userbin.logout
-    rescue Userbin::Error; end
+    warden.request.env['userbin'].logout
+  end
+end
+
+Warden::Manager.after_set_user do |record, warden, opts|
+  if record.respond_to?(:userbin_id)
+    controller = warden.env['action_dispatch.request.parameters']['controller']
+    unless controller == 'devise/two_factor_authentication'
+      warden.request.env['userbin'].authorize!
+    end
   end
 end

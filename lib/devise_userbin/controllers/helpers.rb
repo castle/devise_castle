@@ -4,70 +4,24 @@ module DeviseUserbin
       extend ActiveSupport::Concern
 
       included do
-        before_filter :authorize_resource
-        before_filter :handle_two_factor_authentication
-      end
-
-      private
-
-      def authorize_resource
-        Devise.mappings.keys.flatten.any? do |scope|
-          if signed_in?(scope)
-            begin
-              env['userbin'].authorize
-            rescue Userbin::RequestError
-              # ignore that the API is unreachable
-            rescue Userbin::Error
-              warden.logout(scope)
-              throw :warden, :scope => scope, :message => :signed_out
-            end
-          end
-        end
-      end
-
-      def handle_two_factor_authentication
-        if !devise_controller?
+        rescue_from Userbin::UserUnauthorizedError do |error|
           Devise.mappings.keys.flatten.any? do |scope|
-            if signed_in?(scope) && env['userbin'].authorized?
+            warden.logout(scope)
+            throw :warden, :scope => scope, :message => :signed_out
+          end
+        end
 
-              # Log out if leaving the two-factor page
-              if env['userbin'].two_factor_in_progress? &&
-                 controller_name != 'two_factor_authentication' &&
-                 controller_name != 'two_factor_recovery'
-                warden.logout(scope)
-                throw :warden, :scope => scope
-              end
-
-              begin
-                factor = env['userbin'].two_factor_authenticate!
-
-                # Show form and message specific to the current factor
-                case factor
-                when :authenticator, :yubikey
-                  handle_required_two_factor_authentication(scope)
-                end
-              rescue Userbin::Error
-                warden.logout(scope)
-                throw :warden, :scope => scope, :message => :signed_out
-              end
+        rescue_from Userbin::ChallengeRequiredError do |error|
+          Devise.mappings.keys.flatten.any? do |scope|
+            if request.format.present? and request.format.html?
+              session["#{scope}_return_to"] = request.path if request.get?
+              # todo: doesn't seem to work
+              redirect_to send("new_#{scope}_two_factor_authentication_path")
+            else
+              render nothing: true, status: :unauthorized
             end
           end
         end
-      end
-
-      def handle_required_two_factor_authentication(scope)
-        if request.format.present? and request.format.html?
-          session["#{scope}_return_to"] = request.path if request.get?
-          redirect_to two_factor_authentication_path_for(scope)
-        else
-          render nothing: true, status: :unauthorized
-        end
-      end
-
-      def two_factor_authentication_path_for(resource_or_scope = nil)
-        scope = Devise::Mapping.find_scope!(resource_or_scope)
-        change_path = "#{scope}_two_factor_authentication_path"
-        send(change_path)
       end
 
     end
