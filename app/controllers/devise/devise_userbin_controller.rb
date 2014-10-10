@@ -3,6 +3,10 @@ class Devise::DeviseUserbinController < DeviseController
 
   before_filter :return_not_found, except: :new
 
+  before_filter do
+    env['userbin.skip_authorization'] = true
+  end
+
   def new
     challenge = env['userbin'].challenges.create
     redirect_to edit_user_two_factor_authentication_path(challenge.id) # todo:
