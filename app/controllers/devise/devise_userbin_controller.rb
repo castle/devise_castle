@@ -17,6 +17,8 @@ class Devise::DeviseUserbinController < DeviseController
 
     # Prevent "undefined method `errors' for nil:NilClass"
     self.resource = resource_class.new
+
+    render action: "#{@challenge.delivery_method}/edit"
   end
 
   def update
