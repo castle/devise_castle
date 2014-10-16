@@ -1,5 +1,6 @@
 Warden::Manager.on_request do |warden|
-  warden.request.env['userbin'] = Userbin::Client.new(warden.request)
+  warden.request.env['userbin'] =
+    Userbin::Client.new(warden.request, warden.cookies)
 end
 
 Warden::Manager.before_logout do |record, warden, opts|

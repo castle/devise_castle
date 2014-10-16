@@ -28,10 +28,12 @@ class Devise::DeviseUserbinController < DeviseController
     begin
       env['userbin'].challenges.verify(challenge_id, response: code)
 
+      env['userbin'].trust_device if params[:trust_device]
+
       Devise.mappings.keys.flatten.any? do |scope|
         redirect_to after_sign_in_path_for(scope)
       end
-    rescue Userbin::Error => error
+    rescue Userbin::Error
       sign_out_with_message(:no_retries_remaining, :alert)
     end
   end
