@@ -9,7 +9,10 @@ class Devise::DeviseUserbinController < DeviseController
 
   def new
     challenge = userbin.challenges.create
-    redirect_to edit_user_two_factor_authentication_path(challenge.id)
+    Devise.mappings.keys.flatten.any? do |scope|
+      redirect_to send(
+        "edit_#{scope}_two_factor_authentication_path", challenge.id)
+    end
   end
 
   def edit
