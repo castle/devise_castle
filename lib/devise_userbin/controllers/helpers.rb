@@ -4,6 +4,10 @@ module DeviseUserbin
       extend ActiveSupport::Concern
 
       included do
+        before_filter do
+          env['userbin'] = userbin
+        end
+
         rescue_from Userbin::UserUnauthorizedError do |error|
           Devise.mappings.keys.flatten.any? do |scope|
             warden.logout(scope)

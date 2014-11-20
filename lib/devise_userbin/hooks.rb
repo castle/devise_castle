@@ -1,8 +1,3 @@
-Warden::Manager.on_request do |warden|
-  warden.request.env['userbin'] =
-    Userbin::Client.new(warden.request, warden.cookies)
-end
-
 Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:userbin_id)
     warden.request.env['userbin'].logout
