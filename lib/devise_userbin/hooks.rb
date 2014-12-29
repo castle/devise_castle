@@ -9,7 +9,7 @@ Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:userbin_id)
     userbin = warden.request.env['userbin']
     userbin.logout
-    userbin.track(name: 'logout.succeeded')
+    userbin.track(user_id: record._userbin_id, name: 'logout.succeeded')
   end
 end
 
