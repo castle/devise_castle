@@ -15,9 +15,9 @@ end
 
 # Track login.failed
 Warden::Manager.before_failure do |env, opts|
-  if opts[:action] == 'unauthenticated' && opts[:recall]
+  if opts[:action] == 'unauthenticated' && opts[:username]
     userbin = env['userbin']
-    userbin.track(name: 'login.failed')
+    userbin.track(name: 'login.failed', username: opts[:username])
   end
 end
 

@@ -4,6 +4,7 @@ require 'devise_userbin/hooks'
 require 'devise_userbin/routes'
 require 'devise_userbin/hooks'
 require 'devise_userbin/import'
+require 'devise_userbin/mapping'
 require 'userbin'
 
 module Devise
