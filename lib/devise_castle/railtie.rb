@@ -1,11 +1,11 @@
-module DeviseUserbin
+module DeviseCastle
   class Engine < ::Rails::Engine
     ActiveSupport.on_load(:action_controller) do
-      include DeviseUserbin::Controllers::Helpers
+      include DeviseCastle::Controllers::Helpers
     end
 
     config.after_initialize do
-      Devise::Mapping.send :include, DeviseUserbin::Mapping
+      Devise::Mapping.send :include, DeviseCastle::Mapping
     end
   end
 end

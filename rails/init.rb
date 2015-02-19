@@ -1,1 +1,1 @@
-require 'devise_userbin'
+require 'devise_castle'

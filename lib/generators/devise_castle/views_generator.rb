@@ -1,9 +1,9 @@
 require 'generators/devise/views_generator'
 
-module DeviseUserbin
+module DeviseCastle
   module Generators
     class ViewsGenerator < Rails::Generators::Base
-      desc 'Copies all DeviseUserbin views to your application.'
+      desc 'Copies all DeviseCastle views to your application.'
 
       argument :scope, :required => false, :default => nil,
                        :desc => "The scope to copy views to"

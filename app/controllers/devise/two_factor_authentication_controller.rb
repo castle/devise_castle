@@ -1,3 +1,3 @@
 module Devise
-  class TwoFactorAuthenticationController < DeviseUserbinController; end
+  class TwoFactorAuthenticationController < DeviseCastleController; end
 end

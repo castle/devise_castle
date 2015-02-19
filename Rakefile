@@ -4,10 +4,10 @@ require 'rdoc/task'
 desc 'Default: run test suite.'
 task :default => :spec
 
-desc 'Generate documentation for the devise_userbin plugin.'
+desc 'Generate documentation for the devise_castle plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'DeviseUserbin'
+  rdoc.title    = 'DeviseCastle'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README.md')
   rdoc.rdoc_files.include('lib/**/*.rb')

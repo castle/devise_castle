@@ -1,37 +1,37 @@
 ﻿module Devise
   module Models
-    module Userbin
+    module Castle
       extend ActiveSupport::Concern
 
-      ::Userbin.api_secret = Devise.userbin_api_secret
+      ::Castle.api_secret = Devise.castle_api_secret
 
       included do
-        before_destroy :destroy_userbin_user
+        before_destroy :destroy_castle_user
 
-        def destroy_userbin_user
-          userbin_user_block do
-            ::Userbin::User.destroy_existing(id)
+        def destroy_castle_user
+          castle_user_block do
+            ::Castle::User.destroy_existing(id)
           end
         end
 
-        def userbin_user_block
+        def castle_user_block
           begin
             yield
-          rescue ::Userbin::Error
+          rescue ::Castle::Error
             true
           end
         end
 
         # Override this in your Devise model to use a custom identifier
-        # for the Userbin API:s
-        def userbin_id
+        # for the Castle API:s
+        def castle_id
           id
         end
 
         # Since the identifier will be used in API routes, it needs to be
         # URI encoded
-        def _userbin_id
-          URI.encode(userbin_id.to_s)
+        def _castle_id
+          URI.encode(castle_id.to_s)
         end
       end
 

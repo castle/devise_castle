@@ -1,14 +1,14 @@
-class Devise::DeviseUserbinController < DeviseController
+class Devise::DeviseCastleController < DeviseController
   include Devise::Controllers::Helpers
 
   before_filter :return_not_found, except: :new
 
   before_filter do
-    env['userbin.skip_authorization'] = true
+    env['castle.skip_authorization'] = true
   end
 
   def new
-    challenge = userbin.challenges.create
+    challenge = castle.challenges.create
     Devise.mappings.keys.flatten.any? do |scope|
       redirect_to send(
         "edit_#{scope}_two_factor_authentication_path", challenge.id)
@@ -16,7 +16,7 @@ class Devise::DeviseUserbinController < DeviseController
   end
 
   def edit
-    @challenge = userbin.challenges.find(params[:id])
+    @challenge = castle.challenges.find(params[:id])
 
     # Prevent "undefined method `errors' for nil:NilClass"
     self.resource = resource_class.new
@@ -29,14 +29,14 @@ class Devise::DeviseUserbinController < DeviseController
     code = params.require(:code)
 
     begin
-      userbin.challenges.verify(challenge_id, response: code)
+      castle.challenges.verify(challenge_id, response: code)
 
-      userbin.trust_device if params[:trust_device]
+      castle.trust_device if params[:trust_device]
 
       Devise.mappings.keys.flatten.any? do |scope|
         redirect_to after_sign_in_path_for(scope)
       end
-    rescue Userbin::Error
+    rescue Castle::Error
       sign_out_with_message(:no_retries_remaining, :alert)
     end
   end
@@ -52,7 +52,7 @@ class Devise::DeviseUserbinController < DeviseController
   private
 
   def return_not_found
-    unless userbin.mfa_in_progress?
+    unless castle.mfa_in_progress?
       redirect_to after_sign_in_path_for(resource_name)
     end
   end

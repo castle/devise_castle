@@ -1,4 +1,4 @@
-module DeviseUserbin
+module DeviseCastle
   class ImportError < Exception; end
 
   class Import
@@ -15,8 +15,8 @@ module DeviseUserbin
         raise ImportError, "Only ActiveRecord and Mongoid models are supported"
       end
 
-      unless Userbin.config.api_secret.present?
-        raise ImportError, "Please add an Userbin API secret to your devise.rb"
+      unless Castle.config.api_secret.present?
+        raise ImportError, "Please add an Castle API secret to your devise.rb"
       end
 
       @batch_size = [(options[:batch_size] || 100), 100].min
@@ -29,13 +29,13 @@ module DeviseUserbin
     def run
       batches do |batch, resources|
         begin
-          users = Userbin::User.import(users: batch)
-        rescue Userbin::Error => error
+          users = Castle::User.import(users: batch)
+        rescue Castle::Error => error
           raise ImportError, error.message
         end
 
         users.zip(resources).each do |user, resource|
-          resource.userbin_id = user.id
+          resource.castle_id = user.id
           resource.save(validate: false)
         end
       end
@@ -43,23 +43,23 @@ module DeviseUserbin
 
     def batches
       if active_record?
-        resource_class.where("userbin_id IS NULL").find_in_batches(:batch_size => batch_size) do |resources|
-          resources_for_wire = map_resources_to_userbin_format(resources)
+        resource_class.where("castle_id IS NULL").find_in_batches(:batch_size => batch_size) do |resources|
+          resources_for_wire = map_resources_to_castle_format(resources)
           yield(resources_for_wire, resources) unless resources.count.zero?
         end
       elsif mongoid?
-        0.step(resource_class.where(:userbin_id => nil).count, batch_size) do |offset|
-          resources_for_wire = map_resources_to_userbin_format(resource_class.limit(batch_size).skip(offset))
+        0.step(resource_class.where(:castle_id => nil).count, batch_size) do |offset|
+          resources_for_wire = map_resources_to_castle_format(resource_class.limit(batch_size).skip(offset))
           yield(resources_for_wire, resources) unless resources.count.zero?
         end
       end
     end
 
-    def map_resources_to_userbin_format(resources)
+    def map_resources_to_castle_format(resources)
       resources.map do |resource|
         format = {}
         format[:email] = resource.email unless resource.email.blank?
-        format[:id] = resource._userbin_id
+        format[:id] = resource._castle_id
         format[:created_at] = resource.created_at if resource.respond_to? :created_at
         format
       end.compact
