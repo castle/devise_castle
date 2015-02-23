@@ -35,8 +35,18 @@ end
 Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   if record.respond_to?(:castle_id)
     castle = warden.request.env['castle']
-    castle.track(user_id: record._castle_id, name: '$login.succeeded')
-    castle.login(record._castle_id, email: record.email)
+
+    recommendation = castle.recommendation(user_id: record._castle_id)
+
+    if recommendation.action == 'ok'
+      castle.track(user_id: record._castle_id, name: '$login.succeeded')
+      castle.login(record._castle_id, email: record.email)
+    else
+      castle.track(user_id: record._castle_id, name: '$login.failed')
+
+      warden.logout(opts[:scope])
+      throw :warden, :scope => opts[:scope], :message => :signed_out
+    end
   end
 end
 
