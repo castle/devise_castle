@@ -5,7 +5,7 @@ require 'devise_castle/routes'
 require 'devise_castle/hooks'
 require 'devise_castle/import'
 require 'devise_castle/mapping'
-require 'castle'
+require 'castle-rb'
 
 module Devise
   mattr_accessor :castle_api_secret
