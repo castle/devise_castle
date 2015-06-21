@@ -8,7 +8,6 @@ end
 Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:castle_id)
     castle = warden.request.env['castle']
-    castle.logout
     castle.track(user_id: record._castle_id, name: '$logout.succeeded')
   end
 end
@@ -35,26 +34,6 @@ end
 Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   if record.respond_to?(:castle_id)
     castle = warden.request.env['castle']
-
-    recommendation = castle.recommendation(user_id: record._castle_id)
-
-    if recommendation.action == 'ok'
-      castle.track(user_id: record._castle_id, name: '$login.succeeded')
-      castle.login(record._castle_id, email: record.email)
-    else
-      castle.track(user_id: record._castle_id, name: '$login.failed')
-
-      warden.logout(opts[:scope])
-      throw :warden, :scope => opts[:scope], :message => :signed_out
-    end
-  end
-end
-
-# Continous authentication
-Warden::Manager.after_set_user do |record, warden, opts|
-  if record.respond_to?(:castle_id)
-    env = warden.request.env
-    castle = env['castle']
-    castle.authorize! unless env['castle.skip_authorization']
+    castle.track(user_id: record._castle_id, name: '$login.succeeded')
   end
 end

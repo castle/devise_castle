@@ -10,7 +10,7 @@
 
         def destroy_castle_user
           castle_user_block do
-            ::Castle::User.destroy_existing(id)
+            ::Castle::User.destroy_existing(_castle_id)
           end
         end
 
@@ -32,19 +32,6 @@
         # URI encoded
         def _castle_id
           URI.encode(castle_id.to_s)
-        end
-      end
-
-      # Overwrites valid_for_authentication? from Devise::Models::Authenticatable
-      # for verifying whether a user is allowed to sign in or not.
-      def valid_for_authentication?
-        return super unless persisted?
-
-        if super
-          true
-        else
-          # TODO: track unsuccessful login
-          false
         end
       end
     end

@@ -1,10 +1,8 @@
 require 'active_support/concern'
 require 'devise'
 require 'devise_castle/hooks'
-require 'devise_castle/routes'
-require 'devise_castle/hooks'
-require 'devise_castle/import'
 require 'devise_castle/mapping'
+require 'devise_castle/routes'
 require 'castle-rb'
 
 module Devise
@@ -24,6 +22,6 @@ if defined?(Rails::Railtie)
 end
 
 Devise.add_module(:castle,
-  :controller => :two_factor_authentication,
+  :controller => :devise_castle,
   :route => :castle,
   :model  => 'devise_castle/model')

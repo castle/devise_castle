@@ -2,21 +2,3 @@ en:
   devise:
     failure:
       signed_out: 'You were automatically signed out.'
-    two_factor_authentication:
-      success: Two-factor authentication was successful.
-      failed: Two-factor authentication failed. Please try again.
-      no_retries_remaining: No two-factor retries remaining.
-      error: Two-factor authentication failed.
-      header: Two-factor authentication
-      edit:
-        authenticator:
-          instructions: Open the two-factor authentication app on your device to view your authentication code and use it to verify your identity.
-        yubikey:
-          instructions: Insert your YubiKey and touch the gold disc to verify your identity.
-        sms:
-          instructions: Open the SMS we just sent you to view your authentication code and use it to verify your identity.
-          resend: Re-send the code
-        common:
-          code_label: Authentication code
-          submit_button: Verify
-          recovery_message: Don't have access to your device? Enter one of your backup codes to temporarily bypass verification.
