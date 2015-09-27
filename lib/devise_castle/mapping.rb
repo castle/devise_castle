@@ -8,6 +8,7 @@ module DeviseCastle
     def default_controllers_with_castle(options)
       options[:controllers] ||= {}
       options[:controllers][:sessions] ||= "devise_castle/sessions"
+      options[:controllers][:registrations] ||= "devise_castle/registrations"
       options[:controllers][:passwords] ||= "devise_castle/passwords"
       default_controllers_without_castle(options)
     end
