@@ -55,6 +55,9 @@ These events need to be tracked *manually*:
 - `$challenge.requested`
 - `$challenge.succeeded`
 - `$challenge.failed`
+- `$email_change.requested`
+- `$email_change.succeeded`
+- `$email_change.failed`
 
 ## Configuration
 
