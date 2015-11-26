@@ -34,6 +34,9 @@ end
 Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   if record.respond_to?(:castle_id)
     castle = warden.request.env['castle']
+    castle.identify(record._castle_id, {
+      email: record.email
+    })
     castle.track(user_id: record._castle_id, name: '$login.succeeded')
   end
 end
