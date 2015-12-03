@@ -5,3 +5,4 @@ log
 test/rails_app/tmp
 pkg/*
 *.gem
+/vendor/bundle
