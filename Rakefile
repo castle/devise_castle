@@ -1,8 +1,8 @@
-require File.expand_path('spec/rails_app/config/environment', File.dirname(__FILE__))
+# require File.expand_path('spec/rails_app/config/environment', File.dirname(__FILE__))
 require 'rdoc/task'
 
-desc 'Default: run test suite.'
-task :default => :spec
+# desc 'Default: run test suite.'
+# task :default => :spec
 
 desc 'Generate documentation for the devise_castle plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
@@ -13,4 +13,4 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-RailsApp::Application.load_tasks
+# RailsApp::Application.load_tasks
