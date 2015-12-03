@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency('devise', '~> 3.0')
   s.add_dependency('castle-rb', '~> 1.2.5')
 
-  s.add_development_dependency('bundler', '~> 1.1.0')
+  s.add_development_dependency('bundler', '~> 1.1')
 
   s.add_development_dependency('rake', '~> 0.9')
   s.add_development_dependency('rails', '>= 3.1')
