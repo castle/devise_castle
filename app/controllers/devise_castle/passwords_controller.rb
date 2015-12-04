@@ -9,6 +9,8 @@ class DeviseCastle::PasswordsController < Devise::PasswordsController
     end
 
     super do |resource|
+      return if resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
+
       castle.track(
         name: '$password_reset.requested',
         details: {
@@ -19,6 +21,8 @@ class DeviseCastle::PasswordsController < Devise::PasswordsController
 
   def update
     super do |resource|
+      return if resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
+
       if resource.errors.empty?
         castle.track(
           name: '$password_reset.succeeded',

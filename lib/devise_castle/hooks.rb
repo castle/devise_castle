@@ -7,8 +7,10 @@ end
 # Track logout.succeeded
 Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:castle_id)
-    castle = warden.request.env['castle']
-    castle.track(user_id: record._castle_id, name: '$logout.succeeded')
+    unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
+      castle = warden.request.env['castle']
+      castle.track(user_id: record._castle_id, name: '$logout.succeeded')
+    end
   end
 end
 
@@ -33,10 +35,12 @@ end
 # Track login.succeeded
 Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   if record.respond_to?(:castle_id)
-    castle = warden.request.env['castle']
-    castle.identify(record._castle_id, {
-      email: record.email
-    })
-    castle.track(user_id: record._castle_id, name: '$login.succeeded')
+    unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
+      castle = warden.request.env['castle']
+      castle.identify(record._castle_id, {
+        email: record.email
+      })
+      castle.track(user_id: record._castle_id, name: '$login.succeeded')
+    end
   end
 end

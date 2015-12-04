@@ -33,6 +33,15 @@
         def _castle_id
           URI.encode(castle_id.to_s)
         end
+
+        # Disable Devise model tracking
+        def castle_do_not_track!
+          @castle_do_not_track = true
+        end
+
+        def castle_do_not_track?
+          @castle_do_not_track || false
+        end
       end
     end
   end
