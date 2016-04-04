@@ -10,14 +10,14 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/castle/devise_castle'
   s.summary = 'Devise extension for Castle'
   s.description = 'Devise extension for Castle. Secure your authentication stack with real-time monitoring, instantly notifying you and your users on potential account hijacks.'
-  s.authors = ['Johan Brissmyr']
+  s.authors = ['Johan Brissmyr', 'Sebastian Wallin']
   s.license = 'MIT'
   s.require_path = "lib"
 
   s.files = Dir.glob("{app,lib,config}/**/*")
 
   s.add_dependency('devise', '~> 3.0')
-  s.add_dependency('castle-rb', '~> 1.2.5')
+  s.add_dependency('castle-rb', '~> 1.2.13')
 
   s.add_development_dependency('bundler', '~> 1.1')
 
