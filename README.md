@@ -61,6 +61,16 @@ These events need to be tracked *manually*:
 
 ## Configuration
 
+### Handling errors
+
+By default, all Castle exceptions are handled silently. Uncomment these lines in `config/initializers/devise.rb` to create a custom error handler:
+
+```ruby
+  # config.castle_error_handler = Proc.new { |exception|
+  #   # Handle error from Castle
+  # }
+```
+
 ### Models
 
 By default, the `id` field of your user model will be used as the identifer when creating and querying Castle users. If you have multiple user models that risk generating the same identifier, you can override `castle_id` in your models:

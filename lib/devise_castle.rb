@@ -7,7 +7,9 @@ require 'castle-rb'
 
 module Devise
   mattr_accessor :castle_api_secret
+  mattr_accessor :castle_error_handler
   @@castle_api_secret = ''
+  @@castle_error_handler = nil
 end
 
 module DeviseCastle

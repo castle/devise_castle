@@ -18,6 +18,10 @@ module DeviseCastle
   # ==> Configuration for :castle
   config.castle_api_secret = '#{api_secret}'
 
+  # config.castle_error_handler = Proc.new { |exception|
+  #   # Handle error from Castle
+  # }
+
 CONTENT
             end
           end

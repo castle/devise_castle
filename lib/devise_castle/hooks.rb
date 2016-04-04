@@ -9,7 +9,13 @@ Warden::Manager.before_logout do |record, warden, opts|
   if record.respond_to?(:castle_id)
     unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
       castle = warden.request.env['castle']
-      castle.track(user_id: record._castle_id, name: '$logout.succeeded')
+      begin
+        castle.track(user_id: record._castle_id, name: '$logout.succeeded')
+      rescue ::Castle::Error => e
+        if Devise.castle_error_handler.is_a?(Proc)
+          Devise.castle_error_handler.call(e)
+        end
+      end
     end
   end
 end
@@ -23,12 +29,18 @@ Warden::Manager.before_failure do |env, opts|
     end
 
     castle = env['castle']
-    castle.track(
-      name: '$login.failed',
-      user_id: user_id,
-      details: {
-        '$login' => opts[:username]
-      })
+    begin
+      castle.track(
+        name: '$login.failed',
+        user_id: user_id,
+        details: {
+          '$login' => opts[:username]
+        })
+    rescue ::Castle::Error => e
+      if Devise.castle_error_handler.is_a?(Proc)
+        Devise.castle_error_handler.call(e)
+      end
+    end
   end
 end
 
@@ -37,10 +49,16 @@ Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
   if record.respond_to?(:castle_id)
     unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
       castle = warden.request.env['castle']
-      castle.identify(record._castle_id, {
-        email: record.email
-      })
-      castle.track(user_id: record._castle_id, name: '$login.succeeded')
+      begin
+        castle.identify(record._castle_id, {
+          email: record.email
+        })
+        castle.track(user_id: record._castle_id, name: '$login.succeeded')
+      rescue ::Castle::Error => e
+        if Devise.castle_error_handler.is_a?(Proc)
+          Devise.castle_error_handler.call(e)
+        end
+      end
     end
   end
 end
