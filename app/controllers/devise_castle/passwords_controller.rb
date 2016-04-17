@@ -9,17 +9,17 @@ class DeviseCastle::PasswordsController < Devise::PasswordsController
     end
 
     super do |resource|
-      return if resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
-
-      begin
-        castle.track(
-          name: '$password_reset.requested',
-          details: {
-            '$login' => username
-          })
-      rescue ::Castle::Error => e
-        if Devise.castle_error_handler.is_a?(Proc)
-          Devise.castle_error_handler.call(e)
+      unless resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
+        begin
+          castle.track(
+            name: '$password_reset.requested',
+            details: {
+              '$login' => username
+            })
+        rescue ::Castle::Error => e
+          if Devise.castle_error_handler.is_a?(Proc)
+            Devise.castle_error_handler.call(e)
+          end
         end
       end
     end
@@ -27,21 +27,21 @@ class DeviseCastle::PasswordsController < Devise::PasswordsController
 
   def update
     super do |resource|
-      return if resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
-
-      begin
-        if resource.errors.empty?
-          castle.track(
-            name: '$password_reset.succeeded',
-            user_id: resource._castle_id)
-        else
-          castle.track(
-            name: '$password_reset.failed',
-            user_id: resource._castle_id)
-        end
-      rescue ::Castle::Error => e
-        if Devise.castle_error_handler.is_a?(Proc)
-          Devise.castle_error_handler.call(e)
+      unless resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
+        begin
+          if resource.errors.empty?
+            castle.track(
+              name: '$password_reset.succeeded',
+              user_id: resource._castle_id)
+          else
+            castle.track(
+              name: '$password_reset.failed',
+              user_id: resource._castle_id)
+          end
+        rescue ::Castle::Error => e
+          if Devise.castle_error_handler.is_a?(Proc)
+            Devise.castle_error_handler.call(e)
+          end
         end
       end
     end
