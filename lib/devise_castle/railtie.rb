@@ -5,7 +5,7 @@ module DeviseCastle
     end
 
     config.after_initialize do
-      Devise::Mapping.send :include, DeviseCastle::Mapping
+      Devise::Mapping.send :prepend, DeviseCastle::Mapping
     end
   end
 end
