@@ -1,4 +1,4 @@
-# DEPRECATED: please use [Castle middleware](https://github.com/castle/castle-ruby-middleware#devise) instead
+# DEPRECATED
 
 
 [![Gem Version](https://badge.fury.io/rb/devise_castle.png)](http://badge.fury.io/rb/devise_castle)
