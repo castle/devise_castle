@@ -1,16 +1,16 @@
 class DeviseCastle::RegistrationsController < Devise::RegistrationsController
-  unloadable unless Rails.version =~/^4/
-
   def create
     super do |resource|
       begin
         if resource.persisted?
           castle.track(
-            name: '$registration.succeeded',
-            user_id: resource._castle_id)
+            event: '$registration.succeeded',
+            user_id: resource._castle_id
+          )
         else
           castle.track(
-            name: '$registration.failed')
+            event: '$registration.failed'
+          )
         end
       rescue ::Castle::Error => e
         if Devise.castle_error_handler.is_a?(Proc)
@@ -27,12 +27,14 @@ class DeviseCastle::RegistrationsController < Devise::RegistrationsController
       if params['password'].present?
         if resource_updated
           castle.track(
-            name: '$password_change.succeeded',
-            user_id: resource._castle_id)
+            event: '$password_change.succeeded',
+            user_id: resource._castle_id
+          )
         else
           castle.track(
-            name: '$password_change.failed',
-            user_id: resource._castle_id)
+            event: '$password_change.failed',
+            user_id: resource._castle_id
+          )
         end
       end
     rescue ::Castle::Error => e
