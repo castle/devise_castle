@@ -50,7 +50,7 @@ Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
     unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
       castle = warden.request.env['castle']
       begin
-        castle.track(user_id: record._castle_id, event: '$login.succeeded')
+        castle.authenticate(user_id: record._castle_id, event: '$login.succeeded')
       rescue ::Castle::Error => e
         if Devise.castle_error_handler.is_a?(Proc)
           Devise.castle_error_handler.call(e)
