@@ -42,6 +42,10 @@
         def castle_do_not_track?
           @castle_do_not_track || false
         end
+
+        def castle_user_traits
+          attributes.slice(*Devise.authentication_keys.map(&:to_s))
+        end
       end
     end
   end

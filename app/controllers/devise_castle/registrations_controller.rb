@@ -5,7 +5,8 @@ class DeviseCastle::RegistrationsController < Devise::RegistrationsController
         if resource.persisted?
           castle.track(
             event: '$registration.succeeded',
-            user_id: resource._castle_id
+            user_id: resource._castle_id,
+            user_traits: resource.castle_user_traits
           )
         else
           castle.track(
