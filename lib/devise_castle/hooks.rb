@@ -22,7 +22,7 @@ end
 
 # Track login.failed
 Warden::Manager.before_failure do |env, opts|
-  if opts[:action] == 'unauthenticated' && opts[:username]
+  if opts[:action] == 'unauthenticated' && opts[:user_traits]
 
     user_id = if opts[:user].respond_to?(:castle_id)
       opts[:user]._castle_id
@@ -33,9 +33,8 @@ Warden::Manager.before_failure do |env, opts|
       castle.track(
         event: '$login.failed',
         user_id: user_id,
-        user_traits: {
-          'email' => opts[:username]
-        })
+        user_traits: opts[:user_traits]
+      )
     rescue ::Castle::Error => e
       if Devise.castle_error_handler.is_a?(Proc)
         Devise.castle_error_handler.call(e)

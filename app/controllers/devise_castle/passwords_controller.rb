@@ -1,19 +1,15 @@
 class DeviseCastle::PasswordsController < Devise::PasswordsController
   def create
-    key = resource_params.keys.first
-
-    username = if Devise.reset_password_keys.include?(key.to_sym)
-      resource_params.values.first
+    user_traits = Devise.reset_password_keys.each_with_object({}) do |key, acc|
+      acc[key] = resource_params[key] if resource_params.has?(key)
     end
 
     super do |resource|
       unless resource.respond_to?(:castle_do_not_track?) && resource.castle_do_not_track?
         begin
           castle.track(
-            event: '$password_reset.requested',
-            user_traits: {
-              'email' => username
-            })
+            { event: '$password_reset.requested' }.merge({ user_traits: user_traits })
+          )
         rescue ::Castle::Error => e
           if Devise.castle_error_handler.is_a?(Proc)
             Devise.castle_error_handler.call(e)
