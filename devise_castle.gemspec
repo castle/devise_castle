@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("{app,lib,config}/**/*")
 
   s.add_dependency("devise", ">= 4.0", "< 5")
-  s.add_dependency("castle-rb", ">= 2", "< 3")
+  s.add_dependency("castle-rb", ">= 3", "< 4")
 
   s.add_development_dependency('bundler')
   s.add_development_dependency('rake')
