@@ -1,7 +1,6 @@
 # Instantiate Castle client on every request
 Warden::Manager.on_request do |warden|
-  warden.request.env['castle'] =
-    Castle::Client.new(warden.request, warden.cookies)
+  warden.request.env['castle'] = Castle::Client.from_request(warden.request)
 end
 
 # Track logout.succeeded

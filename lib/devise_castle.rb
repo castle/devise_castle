@@ -3,7 +3,8 @@ require 'devise'
 require 'devise_castle/hooks'
 require 'devise_castle/mapping'
 require 'devise_castle/routes'
-require 'castle-rb'
+require 'castle'
+require 'castle/support/rails'
 
 module Devise
   mattr_accessor :castle_api_secret
