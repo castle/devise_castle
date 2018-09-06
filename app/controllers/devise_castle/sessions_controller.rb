@@ -1,5 +1,4 @@
 class DeviseCastle::SessionsController < Devise::SessionsController
-  unloadable unless Rails.version =~/^4/
 
   protected
 

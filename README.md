@@ -1,6 +1,3 @@
-# DEPRECATED
-
-
 [![Gem Version](https://badge.fury.io/rb/devise_castle.png)](http://badge.fury.io/rb/devise_castle)
 [![Dependency Status](https://gemnasium.com/castle/devise_castle.png)](https://gemnasium.com/castle/devise_castle)
 
