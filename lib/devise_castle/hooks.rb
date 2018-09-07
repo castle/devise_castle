@@ -1,7 +1,6 @@
 # Instantiate Castle client on every request
 Warden::Manager.on_request do |warden|
-  warden.request.env['castle'] =
-    Castle::Client.new(warden.request, warden.cookies)
+  warden.request.env['castle'] = Castle::Client.from_request(warden.request)
 end
 
 # Track logout.succeeded
@@ -22,7 +21,7 @@ end
 
 # Track login.failed
 Warden::Manager.before_failure do |env, opts|
-  if opts[:action] == 'unauthenticated' && opts[:username]
+  if opts[:action] == 'unauthenticated' && opts[:user_traits]
 
     user_id = if opts[:user].respond_to?(:castle_id)
       opts[:user]._castle_id
@@ -33,9 +32,8 @@ Warden::Manager.before_failure do |env, opts|
       castle.track(
         event: '$login.failed',
         user_id: user_id,
-        user_traits: {
-          'email' => opts[:username]
-        })
+        user_traits: opts[:user_traits]
+      )
     rescue ::Castle::Error => e
       if Devise.castle_error_handler.is_a?(Proc)
         Devise.castle_error_handler.call(e)
@@ -50,7 +48,11 @@ Warden::Manager.after_set_user :except => :fetch do |record, warden, opts|
     unless record.respond_to?(:castle_do_not_track?) && record.castle_do_not_track?
       castle = warden.request.env['castle']
       begin
-        castle.authenticate(user_id: record._castle_id, event: '$login.succeeded')
+        castle.authenticate(
+          user_id: record._castle_id,
+          event: '$login.succeeded',
+          user_traits: record.castle_user_traits
+        )
       rescue ::Castle::Error => e
         if Devise.castle_error_handler.is_a?(Proc)
           Devise.castle_error_handler.call(e)
