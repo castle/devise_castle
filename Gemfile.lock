@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    devise_castle (2.1.0)
+    devise_castle (2.1.1)
       castle-rb (>= 3, < 4)
       devise (>= 4.0, < 5)
 
@@ -53,7 +53,7 @@ GEM
     bcrypt (3.1.12)
     builder (3.2.3)
     byebug (10.0.2)
-    castle-rb (3.5.0)
+    castle-rb (3.5.1)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
     devise (4.5.0)
@@ -142,4 +142,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   1.16.4
+   1.17.1
