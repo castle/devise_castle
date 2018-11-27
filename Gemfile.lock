@@ -135,11 +135,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler
+  bundler (> 0)
   byebug
   devise_castle!
   rails (>= 4, < 6)
-  rake
+  rake (> 0)
 
 BUNDLED WITH
    1.17.1
