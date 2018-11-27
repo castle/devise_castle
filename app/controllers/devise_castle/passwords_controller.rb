@@ -1,7 +1,7 @@
 class DeviseCastle::PasswordsController < Devise::PasswordsController
   def create
     user_traits = Devise.reset_password_keys.each_with_object({}) do |key, acc|
-      acc[key] = resource_params[key] if resource_params.has_key?(key)
+      acc[key] = resource_params[key] if resource_params.key?(key)
     end
 
     super do |resource|
