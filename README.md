@@ -1,6 +1,12 @@
-**This repository is no longer maintained**. Please use https://github.com/castle/castle_devise instead.
+## Warning
+
+:exclamation: **This repository is no longer maintained**. Please use https://github.com/castle/castle_devise instead.
+
+
 
 ---
+
+
 
 [![Gem Version](https://badge.fury.io/rb/devise_castle.png)](http://badge.fury.io/rb/devise_castle)
 
